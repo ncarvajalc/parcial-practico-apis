@@ -1,4 +1,4 @@
-import { ClubEntity } from '../clubs/club.entity';
+import { ClubEntity } from '../clubs/clubs.entity';
 import {
   Column,
   Entity,

@@ -1,4 +1,4 @@
-import { MemberEntity } from '../members/member.entity';
+import { MemberEntity } from '../members/members.entity';
 import { Column, Entity, ManyToMany, PrimaryGeneratedColumn } from 'typeorm';
 
 @Entity()
