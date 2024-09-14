@@ -5,9 +5,11 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { ClubsMembersService } from './clubs-members.service';
 import { ClubsService } from '../clubs/clubs.service';
 import { MembersService } from '../members/members.service';
+import { ClubsMembersController } from './clubs-members.controller';
 
 @Module({
   imports: [TypeOrmModule.forFeature([ClubEntity, MemberEntity])],
   providers: [ClubsMembersService, ClubsService, MembersService],
+  controllers: [ClubsMembersController],
 })
 export class ClubsMembersModule {}

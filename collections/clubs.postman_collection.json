@@ -1,0 +1,437 @@
+{
+	"info": {
+		"_postman_id": "3fa710df-cf3a-40dc-ba8f-e95bd4a75450",
+		"name": "clubs",
+		"description": "Colección de la entidad Club.",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "14950540"
+	},
+	"item": [
+		{
+			"name": "Crear un club válido",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"var data = pm.response.json()",
+							"pm.globals.set(\"idClub\", data.id);",
+							"",
+							"pm.test(\"Status code is 201\", function () {",
+							"   pm.response.to.have.status(201);",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"name\": \"Club de prueba\",\n    \"foundationDate\": \"2024-11-12T12:34:56.789Z\",\n    \"image\": \"https://www.google.com/imgres?q=club&imgurl=https%3A%2F%2Fwww.federacioncolombianadegolf.com%2Fservlet%2FrtaImage%3Feid%3D0015x000027TYA6%26feoid%3D00N5x00000EelQ1%26refid%3D0EM5x000001uNPt&imgrefurl=https%3A%2F%2Fwww.federacioncolombianadegolf.com%2Fapex%2Fclubs%3FPost%3D0015x000027TYA6AAO&docid=8Y7bvRJAtQWMdM&tbnid=9tsgaOHnTKR68M&vet=12ahUKEwjhqfCwgcOIAxVARTABHULmA6AQM3oECC0QAA..i&w=1400&h=700&hcb=2&ved=2ahUKEwjhqfCwgcOIAxVARTABHULmA6AQM3oECC0QAA\",\n    \"description\": \"Descripción del club de prueba\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{baseURL}}/clubs",
+					"host": [
+						"{{baseURL}}"
+					],
+					"path": [
+						"clubs"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Crear un club inválido",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 412\", function () {",
+							"   pm.response.to.have.status(412);",
+							"});",
+							"",
+							"pm.test(\"Get expected error message\", function () {",
+							"   var data = pm.response.json();",
+							"   pm.expect(data.message).to.eql(\"The description surpasses the maximum length of 100 characters\");",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"name\": \"Club de prueba\",\n    \"foundationDate\": \"2024-11-12T12:34:56.789Z\",\n    \"image\": \"https://www.google.com/imgres?q=club&imgurl=https%3A%2F%2Fwww.federacioncolombianadegolf.com%2Fservlet%2FrtaImage%3Feid%3D0015x000027TYA6%26feoid%3D00N5x00000EelQ1%26refid%3D0EM5x000001uNPt&imgrefurl=https%3A%2F%2Fwww.federacioncolombianadegolf.com%2Fapex%2Fclubs%3FPost%3D0015x000027TYA6AAO&docid=8Y7bvRJAtQWMdM&tbnid=9tsgaOHnTKR68M&vet=12ahUKEwjhqfCwgcOIAxVARTABHULmA6AQM3oECC0QAA..i&w=1400&h=700&hcb=2&ved=2ahUKEwjhqfCwgcOIAxVARTABHULmA6AQM3oECC0QAA\",\n    \"description\": \"Esta es una description de mas de 100 caracteres. Esta es una description de mas de 100 caracteres. Esta es una description de mas de 100 caracteres. Esta es una description de mas de 100 caracteres.Esta es una description de mas de 100 caracteres\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{baseURL}}/clubs",
+					"host": [
+						"{{baseURL}}"
+					],
+					"path": [
+						"clubs"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Obtener todos los clubs",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test('Number of clubs > ' + 0, function () {",
+							"   var data = pm.response.json()",
+							"   pm.expect(data.length).to.greaterThan(0)",
+							"});",
+							"",
+							"pm.test(\"Status code is 200\", function () {",
+							"   pm.response.to.have.status(200);",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{baseURL}}/clubs",
+					"host": [
+						"{{baseURL}}"
+					],
+					"path": [
+						"clubs"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Obtener un club por ID",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {",
+							"   pm.response.to.have.status(200);",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{baseURL}}/clubs/{{idClub}}",
+					"host": [
+						"{{baseURL}}"
+					],
+					"path": [
+						"clubs",
+						"{{idClub}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Obtener un club por un ID que no existe",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 404\", function () {",
+							"   pm.response.to.have.status(404);",
+							"});",
+							"",
+							"pm.test(\"Get expected error message\", function () {",
+							"   var data = pm.response.json();",
+							"   pm.expect(data.message).to.eql(\"The club with the given id was not found\");",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{baseURL}}/clubs/00000000-0000-0000-0000-000000000000",
+					"host": [
+						"{{baseURL}}"
+					],
+					"path": [
+						"clubs",
+						"00000000-0000-0000-0000-000000000000"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Actualizar un club",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {",
+							"   pm.response.to.have.status(200);",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"name\": \"Club de prueba modificado\",\n    \"foundationDate\": \"2024-11-12T12:34:56.789Z\",\n    \"image\": \"https://www.google.com/imgres?q=club&imgurl=https%3A%2F%2Fwww.federacioncolombianadegolf.com%2Fservlet%2FrtaImage%3Feid%3D0015x000027TYA6%26feoid%3D00N5x00000EelQ1%26refid%3D0EM5x000001uNPt&imgrefurl=https%3A%2F%2Fwww.federacioncolombianadegolf.com%2Fapex%2Fclubs%3FPost%3D0015x000027TYA6AAO&docid=8Y7bvRJAtQWMdM&tbnid=9tsgaOHnTKR68M&vet=12ahUKEwjhqfCwgcOIAxVARTABHULmA6AQM3oECC0QAA..i&w=1400&h=700&hcb=2&ved=2ahUKEwjhqfCwgcOIAxVARTABHULmA6AQM3oECC0QAA\",\n    \"description\": \"Descripción del club de prueba modificado\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{baseURL}}/clubs/{{idClub}}",
+					"host": [
+						"{{baseURL}}"
+					],
+					"path": [
+						"clubs",
+						"{{idClub}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Actualizar un club con un ID que no existe",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 404\", function () {",
+							"   pm.response.to.have.status(404);",
+							"});",
+							"",
+							"pm.test(\"Get expected error message\", function () {",
+							"   var data = pm.response.json();",
+							"   pm.expect(data.message).to.eql(\"The club with the given id was not found\");",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"name\": \"Club de prueba modificado\",\n    \"foundationDate\": \"2024-11-12T12:34:56.789Z\",\n    \"image\": \"https://www.google.com/imgres?q=club&imgurl=https%3A%2F%2Fwww.federacioncolombianadegolf.com%2Fservlet%2FrtaImage%3Feid%3D0015x000027TYA6%26feoid%3D00N5x00000EelQ1%26refid%3D0EM5x000001uNPt&imgrefurl=https%3A%2F%2Fwww.federacioncolombianadegolf.com%2Fapex%2Fclubs%3FPost%3D0015x000027TYA6AAO&docid=8Y7bvRJAtQWMdM&tbnid=9tsgaOHnTKR68M&vet=12ahUKEwjhqfCwgcOIAxVARTABHULmA6AQM3oECC0QAA..i&w=1400&h=700&hcb=2&ved=2ahUKEwjhqfCwgcOIAxVARTABHULmA6AQM3oECC0QAA\",\n    \"description\": \"Descripción del club de prueba modificado\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{baseURL}}/clubs/00000000-0000-0000-0000-000000000000",
+					"host": [
+						"{{baseURL}}"
+					],
+					"path": [
+						"clubs",
+						"00000000-0000-0000-0000-000000000000"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Eliminar un club por su ID",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 204\", function(){",
+							"    pm.response.to.have.status(204);",
+							"})"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{baseURL}}/clubs/{{idClub}}",
+					"host": [
+						"{{baseURL}}"
+					],
+					"path": [
+						"clubs",
+						"{{idClub}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Eliminar un club con un ID que no existe",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 404\", function(){",
+							"    pm.response.to.have.status(404);",
+							"});",
+							"",
+							"pm.test(\"Get expected error message\", function(){",
+							"    var data = pm.response.json();",
+							"    pm.expect(data.message).to.eql(\"The club with the given id was not found\");",
+							"})"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{baseURL}}/clubs/00000000-0000-0000-0000-000000000000",
+					"host": [
+						"{{baseURL}}"
+					],
+					"path": [
+						"clubs",
+						"00000000-0000-0000-0000-000000000000"
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"value": "",
+			"type": "string"
+		}
+	]
+}
